@@ -1,53 +1,52 @@
-let cv, ctx, img
-let cells = []
-let cellSize = 2
-
-let colorD = [17,  17,  17, 255]
-let colorM = [50,  50,  50, 255]
-let colorT = [ 0, 255, 150, 255]
-
-window.onload = () => {
-    console.log('loaded')
-    cv = document.getElementById("render");
+var cv, ctx, img;
+var cells = [];
+var cellSize = 2;
+var colorD = [17, 17, 17, 255];
+var colorM = [50, 50, 50, 255];
+var colorT = [0, 255, 150, 255];
+window.onload = function () {
+    console.log("loaded");
+    var body = document.querySelector("body");
+    cv = document.createElement("canvas");
+    cv.width = 1280;
+    cv.height = 720;
+    body.appendChild(cv);
     ctx = cv.getContext("2d");
     img = ctx.createImageData(cv.width, cv.height);
-    console.log(img.data)
-
     // draw background
-    render()
+    render();
+};
+function render() {
+    console.log("render");
+    drawCellArray();
 }
-
-const render = () => {
-    console.log('render')
-    drawCellArray()
-}
-
-const drawCellArray = () => {
-    console.log('drawCellArray')
-    t = performance.now()
-    for(let x = 1; x < cv.width; x+=(cellSize + 1)) {
-        for(let y = 1; y < cv.height; y+=(cellSize + 1)) {
-            drawCell({x, y, state: 'dead'})
+function drawCellArray() {
+    console.log("drawCellArray");
+    var t = performance.now();
+    var x, y;
+    for (x = 1; x < cv.width; x += cellSize + 1) {
+        for (y = 1; y < cv.height; y += cellSize + 1) {
+            var cell = { x: x, y: y, state: "off" };
+            drawCell(cell);
         }
     }
-    console.log(performance.now() - t)
-    ctx.putImageData(img, 0, 0)
+    console.log(performance.now() - t);
+    ctx.putImageData(img, 0, 0);
 }
-
-const drawCell = ({x, y, state}) => {
-    for(let coordX = x; coordX < x+cellSize; coordX++) {
-        for(let coordY = y; coordY < y+cellSize; coordY++) {
-            drawPixel(coordX, coordY, state == 'live'? colorT : colorM, img)
+function drawCell(cell) {
+    for (var coordX = cell.x; coordX < cell.x + cellSize; coordX++) {
+        for (var coordY = cell.y; coordY < cell.y + cellSize; coordY++) {
+            drawPixel(coordX, coordY, cell.state == "on" ? colorT : colorM, img);
         }
     }
 }
-
-const drawPixel = (x, y, color, {data}) => {
-    let roundedX = Math.floor(x)
-    let roundedY = Math.floor(y)
-    let index = 4 * (cv.width * roundedY + roundedX)
-    data[index + 0] = color[0]
-    data[index + 1] = color[1]
-    data[index + 2] = color[2]
-    data[index + 3] = color[3]
+function drawPixel(x, y, color, _a) {
+    var data = _a.data;
+    var roundedX = Math.floor(x);
+    var roundedY = Math.floor(y);
+    var index = 4 * (cv.width * roundedY + roundedX);
+    data[index + 0] = color[0];
+    data[index + 1] = color[1];
+    data[index + 2] = color[2];
+    data[index + 3] = color[3];
 }
