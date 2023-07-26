@@ -42,3 +42,11 @@ export function fillRect(x: number, y: number, width: number, height: number,col
     }
     return result
 }
+
+export function clearImageData(image: ImageData) {
+    let result = image
+    for(let idx = 0; idx < image.data.length; idx++) {
+        image.data[idx] = 0
+    }
+    return result
+}
