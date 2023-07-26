@@ -1,5 +1,7 @@
 import * as core from './core.js'
 
+console.log('main loaded ')
+
 interface Cell {
     x: number,
     y: number,

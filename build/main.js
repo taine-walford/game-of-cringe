@@ -1,6 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var core = require("./core.js");
+import * as core from './core.js';
+console.log('main loaded ');
 function main() {
     var bodyElement = document.querySelector('body');
     var canvas = core.createCanvas(1280, 720);
