@@ -5,7 +5,9 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -outDir ./build ./src/main.ts --watch --module es6"
+    "watch": "tsc -outDir ./build ./src/main.ts --watch --module es6",
+    "build": "tsc -outDir ./build ./src/main.ts --module es6",
+    "server": "node server.js"
   },
   "keywords": [],
   "author": "",
