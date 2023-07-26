@@ -15,9 +15,10 @@ function main() {
 
     const context: CanvasRenderingContext2D = canvas.getContext("2d")!
     let image: ImageData = context.getImageData(0, 0, 1280, 720)
+    
 
     const config = {
-        cellSize: 1,
+        cellSize: 10,
         colours: {
             on: [0, 255, 160, 255],
             off: [50, 40, 50, 255],
@@ -28,10 +29,15 @@ function main() {
         image,
     }
 
-    let t = performance.now()
-    image = drawGrid(2, 1, config.colours.off, image)
-    context.putImageData(image, 0, 0)
-    console.log(performance.now() - t + "ms")
+    const slider: HTMLInputElement = document.querySelector('input[type=range]')!
+    slider.oninput = function (evt: Event) {
+        const target = evt.target as HTMLInputElement
+        const value: number = Number(target.value)
+        config.cellSize = value
+        drawImageData(config)
+    }
+
+    drawImageData(config)
     // animate()
 }
 
@@ -52,5 +58,14 @@ function drawGrid(cellSize: number, borderSize: number, color: number[], image: 
     }
     return result
 }
+
+function drawImageData(config) {
+    let t = performance.now()
+    config.image = core.clearImageData(config.image)
+    config.image = drawGrid(config.cellSize, 1, config.colours.off, config.image)
+    config.context.putImageData(config.image, 0, 0)
+    console.log(performance.now() - t + "ms")
+}
+
 
 window.onload = main
